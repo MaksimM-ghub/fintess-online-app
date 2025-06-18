@@ -1,0 +1,5 @@
+@use './mixins/font-face' as font;
+
+@include font.font-face("Gomena", "../assets/fonts/GomenaRegular", 400, normal);
+@include font.font-face("Geist", "../assets/fonts/GeistRegular", 400, normal);
+

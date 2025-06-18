@@ -1,0 +1,7 @@
+:root {
+  --font-family: 'Geist', sans-serif;
+  --font-logo: 'Gomena', sans-serif;
+  --content-width: 1280px;
+  --container-offset: 15px;
+  --container-width: calc(var(--content-width) + (var(--container-offset) * 2));
+}

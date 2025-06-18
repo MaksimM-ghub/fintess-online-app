@@ -1,0 +1,22 @@
+.app-logo {
+  position: relative;
+  font-size: 30px;
+  font-weight: 400;
+  font-family: var(--font-logo);
+  background: linear-gradient(90deg, #ff6a00, #ee0979);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-fill-color: transparent;
+  color: transparent;
+
+  &--pos {
+    position: absolute;
+    top: 21px;
+    left: 62px;
+    background: linear-gradient(90deg, #ff6a00, #ee0979);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-fill-color: transparent;
+    color: transparent;
+  }
+}
