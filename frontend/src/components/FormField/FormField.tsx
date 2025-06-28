@@ -1,4 +1,5 @@
 import { FC, ReactNode } from "react";
+import "./FormField.scss"
 
 interface FormFieldProps {
   title?: string;
@@ -11,17 +12,17 @@ interface FormFieldProps {
 
 const FormField: FC<FormFieldProps> = ({
   title,
-  classWrapper,
-  className,
+  classWrapper = "",
+  className = "",
   htmlFor,
   children,
   errorMessage,
 }) => {
   return (
-    <div className={`label-wrapper ${classWrapper}`}>
+    <div className={`form-field__wrapper ${classWrapper}`}>
       {children}
       <label htmlFor={htmlFor} className={className}>{title}</label>
-      {errorMessage && <p className="">{errorMessage}</p>}
+      {errorMessage && <p className="form-field__error">{errorMessage}</p>}
     </div>
   );
 };

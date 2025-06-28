@@ -10,10 +10,10 @@ function App() {
     <>
       <Header />
       <main>
-            <Routes>
-              <Route path="/" element={<HeroBlock />} />
-              <Route path="/calorie-calculation" element={<CalcCalorie />} />
-            </Routes>
+        <Routes>
+          <Route path="/" element={<HeroBlock />} />
+          <Route path="/calorie-calculation" element={<CalcCalorie />} />
+        </Routes>
       </main>
       <footer className="footer">
         <div className="container footer__container"></div>

@@ -38,8 +38,8 @@ const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="auth-form__wrapper">
+    <form onSubmit={handleSubmit(onSubmit)} className="auth-form__form">
+      <div className="auth-form__inner">
         <FormField
           htmlFor="email"
           title="Email"
@@ -50,7 +50,7 @@ const LoginForm = () => {
             id="email"
             {...register("email")}
             type="text"
-            className="input-reset input-primary"
+            className="input-reset input-primary auth-form__input"
           />
         </FormField>
         <FormField
@@ -63,12 +63,12 @@ const LoginForm = () => {
             id="password"
             {...register("password")}
             type="password"
-            className="input-reset input-primary"
+            className="input-reset input-primary auth-form__input"
           />
         </FormField>
         <Button
           isLoading={loginMutate.isPending}
-          className="btn-reset btn-primary"
+          className="btn-reset btn-primary auth-form__btn"
         >
           Войти
         </Button>

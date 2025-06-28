@@ -11,7 +11,7 @@ const registerSchema = z
   .object({
     name: z.string().nonempty("Поле обязательное для заполнения"),
     surname: z.string().nonempty("Поле обязательное для заполнения"),
-    email: z.string().email({message: "Неверный формат почты"}),
+    email: z.string().email({ message: "Неверный формат почты" }),
     password: z
       .string()
       .min(6, { message: "Пароль должен быть не менее 6 символов" })
@@ -24,7 +24,7 @@ const registerSchema = z
   });
 
 type RegisterFormType = z.infer<typeof registerSchema>;
-type RegisterUserType = Omit<RegisterFormType, "confirmPassword">
+type RegisterUserType = Omit<RegisterFormType, "confirmPassword">;
 
 const RegisterForm = () => {
   const {
@@ -43,49 +43,70 @@ const RegisterForm = () => {
   });
 
   const onSubmit = (data: RegisterUserType) => {
-    const {registerData, ...confirmPassword} = data;
-    registerMutate.mutate(registerData)
-  }
+    const { registerData, ...confirmPassword } = data;
+    registerMutate.mutate(registerData);
+  };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="auth-form__wrapper">
-        <FormField title="Имя" errorMessage={errors.name?.message}>
+    <form onSubmit={handleSubmit(onSubmit)} className="auth-form__form">
+      <div className="auth-form__inner">
+        <FormField
+          htmlFor="name"
+          title="Имя"
+          className="label-primary"
+          errorMessage={errors.name?.message}
+        >
           <input
+            id="name"
             {...register("name")}
             type="text"
-            className="input-reset auth-form__input"
+            className="input-reset input-primary auth-form__input"
           />
         </FormField>
-        <FormField title="Фамилия" errorMessage={errors.surname?.message}>
+        <FormField
+          htmlFor="surname"
+          title="Фамилия"
+          className="label-primary"
+          errorMessage={errors.surname?.message}
+        >
           <input
+            id="surname"
             {...register("surname")}
             type="text"
-            className="input-reset auth-form__input"
+            className="input-reset input-primary auth-form__input"
           />
         </FormField>
-        <FormField title="email" errorMessage={errors.email?.message}>
+        <FormField
+          title="Email"
+          className="label-primary"
+          errorMessage={errors.email?.message}
+        >
           <input
             {...register("email")}
             type="email"
-            className="input-reset auth-form__input"
+            className="input-reset input-primary auth-form__input"
           />
         </FormField>
-        <FormField title="Пароль" errorMessage={errors.password?.message}>
+        <FormField
+          title="Пароль"
+          className="label-primary"
+          errorMessage={errors.password?.message}
+        >
           <input
             {...register("password")}
             type="password"
-            className="input-reset auth-form__input"
+            className="input-reset input-primary auth-form__input"
           />
         </FormField>
         <FormField
           title="Подтвердите пароль"
+          className="label-primary"
           errorMessage={errors.confirmPassword?.message}
         >
           <input
             {...register("confirmPassword")}
             type="password"
-            className="input-reset auth-form__input"
+            className="input-reset input-primary auth-form__input"
           />
         </FormField>
         {registerMutate.isError && (
@@ -93,7 +114,7 @@ const RegisterForm = () => {
         )}
         <Button
           isLoading={registerMutate.isPending}
-          className="btn-reset btn-primary"
+          className="btn-reset btn-primary auth-form__btn"
         >
           Создать аккаунт
         </Button>
