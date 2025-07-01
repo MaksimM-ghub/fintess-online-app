@@ -40,7 +40,7 @@ const RegisterForm = () => {
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: ["fetchMe"] });
     },
-  });
+  }, queryClient);
 
 const onSubmit = (data: RegisterFormType) => {
   const { confirmPassword, ...registerData } = data;

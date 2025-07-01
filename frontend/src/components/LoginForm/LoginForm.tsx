@@ -6,6 +6,8 @@ import { Button } from "../Button/Button";
 import FormField from "../FormField/FormField";
 import { api } from "../../services/api/api";
 import { queryClient } from "../../services/api/queryClient";
+import { setIsAuthOpen } from "../../store/isVisibleSlice/isVisibleSlice";
+import { useDispatch } from "react-redux";
 
 const loginSchema = z.object({
   email: z
@@ -26,12 +28,15 @@ const LoginForm = () => {
     resolver: zodResolver(loginSchema),
   });
 
+  const dispatch = useDispatch();
+
   const loginMutate = useMutation({
-    mutationFn: api.login,
+    mutationFn: (data: loginType) => api.login(data),
     onSuccess() {
-      queryClient.invalidateQueries({ queryKey: ["FetchMe"] });
+      queryClient.invalidateQueries({ queryKey: ["fetchMe"] });
+      dispatch(setIsAuthOpen(false));
     },
-  });
+  }, queryClient);
 
   const onSubmit = (data: loginType) => {
     loginMutate.mutate(data);
