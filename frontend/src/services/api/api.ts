@@ -2,11 +2,11 @@ import { UserMeResponse, RegisterType, LoginType } from "../../types/apiType/api
 import { validationResponse } from "./validateResponse";
 
 interface ApiType {
-    url: string;
+  url: string;
 }
 
 class Api implements ApiType {
-  constructor(public url: string) {}
+  constructor(public url: string) { }
 
   fetchMe(): Promise<UserMeResponse> {
     return fetch(`${this.url}/me`, {
@@ -24,29 +24,30 @@ class Api implements ApiType {
       });
   }
 
-  register({name, surname, email, password}: RegisterType): Promise<void> {
+  register({ name, surname, email, password }: RegisterType): Promise<void> {
     return fetch(`${this.url}/register`, {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-type": "application/json"
       },
-      body: JSON.stringify({name, surname, email, password})
+      body: JSON.stringify({ name, surname, email, password })
     })
-    .then(validationResponse)
-    .then(() => undefined)
+      .then(validationResponse)
+      .then(() => undefined)
   }
 
-  login({email, password}: LoginType): Promise<void> {
+  login({ email, password }: LoginType): Promise<void> {
     return fetch(`${this.url}/login`, {
       method: "POST",
       headers: {
         "Content-type": "application/json"
       },
-      body: JSON.stringify({email, password}),
+      body: JSON.stringify({ email, password }),
       credentials: "include",
     })
-    .then(validationResponse)
-    .then(() => undefined)
+      .then(validationResponse)
+      .then(() => undefined)
   }
 }
 

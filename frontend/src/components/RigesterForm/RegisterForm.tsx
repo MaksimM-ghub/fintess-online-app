@@ -36,16 +36,17 @@ const RegisterForm = () => {
   });
 
   const registerMutate = useMutation({
-    mutationFn: api.register,
+    mutationFn: (registerData: RegisterUserType) => api.register(registerData),
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: ["fetchMe"] });
     },
   });
 
-  const onSubmit = (data: RegisterUserType) => {
-    const { registerData, ...confirmPassword } = data;
-    registerMutate.mutate(registerData);
-  };
+const onSubmit = (data: RegisterFormType) => {
+  const { confirmPassword, ...registerData } = data;
+  registerMutate.mutate(registerData);
+};
+
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="auth-form__form">
