@@ -22,12 +22,12 @@ import ResultCalcCalories from "../ResultCalcCalories/ResultCalcCalories";
 
 const CalcCalorie = () => {
   const [formData, setFormData] = useState({
-    gender: "" as Gender | string,
+    gender: "male" as Gender | string,
     age: null as number | null,
     height: null as number | null,
     weight: null as number | null,
     palIdx: 0,
-    purpose: "" as Purpose | string,
+    purpose: "deficit" as Purpose | string,
   });
 
   const [showResult, setShowResult] = useState<boolean>(false);
