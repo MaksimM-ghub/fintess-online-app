@@ -60,7 +60,7 @@ function authMiddleware(req, res, next) {
 }
 
 app.post("/register", async (req, res) => {
-  const { email, name, surname, password } = req.body;
+  const { name, surname, email, password } = req.body;
 
   if (dbUser.data.user.find((item) => item.email === email)) {
     return res
@@ -108,12 +108,12 @@ app.get("/me", authMiddleware, (req, res) => {
     .json({
       email: req.user.email,
       name: req.user.name,
-      username: req.user.username,
+      surname: req.user.surname,
     });
 });
 
 app.post("/logout", (req, res) => {
-  res.clearCookie("email");
+  res.clearCookie("token");
   res.status(200).json({ message: "Выход выполнен" });
 });
 
