@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useMutation } from "@tanstack/react-query";
-import { api } from "../../services/api/api";
+import { api, register } from "../../services/api/api";
 import { queryClient } from "../../services/api/queryClient";
 import FormField from "../FormField/FormField";
 import { Button } from "../Button/Button";
@@ -40,13 +40,12 @@ const RegisterForm = () => {
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: ["fetchMe"] });
     },
-  }, queryClient);
+  });
 
-const onSubmit = (data: RegisterFormType) => {
-  const { confirmPassword, ...registerData } = data;
-  registerMutate.mutate(registerData);
-};
-
+  const onSubmit = (data: RegisterFormType) => {
+    const { confirmPassword, ...registerData } = data;
+    registerMutate.mutate(registerData);
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="auth-form__form">
@@ -111,7 +110,9 @@ const onSubmit = (data: RegisterFormType) => {
           />
         </FormField>
         {registerMutate.isError && (
-          <p className="auth-form__error">{registerMutate.error.message}</p>
+          <p className="auth-form__error">
+            {registerMutate.error.message}
+          </p>
         )}
         <Button
           isLoading={registerMutate.isPending}

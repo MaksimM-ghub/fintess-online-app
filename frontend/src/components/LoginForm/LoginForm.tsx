@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { Button } from "../Button/Button";
 import FormField from "../FormField/FormField";
-import { api } from "../../services/api/api";
+import { login } from "../../services/api/api";
 import { queryClient } from "../../services/api/queryClient";
 import { setIsAuthOpen } from "../../store/isVisibleSlice/isVisibleSlice";
 import { useDispatch } from "react-redux";
@@ -30,13 +30,16 @@ const LoginForm = () => {
 
   const dispatch = useDispatch();
 
-  const loginMutate = useMutation({
-    mutationFn: (data: loginType) => api.login(data),
-    onSuccess() {
-      queryClient.invalidateQueries({ queryKey: ["fetchMe"] });
-      dispatch(setIsAuthOpen(false));
+  const loginMutate = useMutation(
+    {
+      mutationFn: (data: loginType) => login(data),
+      onSuccess() {
+        queryClient.invalidateQueries({ queryKey: ["fetchMe"] });
+        dispatch(setIsAuthOpen(false));
+      },
     },
-  }, queryClient);
+    queryClient
+  );
 
   const onSubmit = (data: loginType) => {
     loginMutate.mutate(data);
@@ -71,6 +74,11 @@ const LoginForm = () => {
             className="input-reset input-primary auth-form__input"
           />
         </FormField>
+        {loginMutate.isError && (
+          <p className="auth-form__error">
+            {loginMutate.error.message}
+          </p>
+        )}
         <Button
           isLoading={loginMutate.isPending}
           className="btn-reset btn-primary auth-form__btn"

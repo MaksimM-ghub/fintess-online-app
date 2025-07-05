@@ -1,6 +1,6 @@
 import "./Account.scss"
 import { Link } from "react-router-dom";
-import { api } from "../../services/api/api";
+import { fetchMe } from "../../services/api/api";
 import LoaderBtn from "../LoaderBtn/LoaderBtn";
 import { useQuery } from "@tanstack/react-query";
 import { useSelector, useDispatch} from "react-redux";
@@ -18,7 +18,7 @@ const Account = () => {
 
 
   const { status } = useQuery({
-    queryFn: () => api.fetchMe(),
+    queryFn: () => fetchMe(),
     queryKey: ["fetchMe"],
     retry: 0
   });
@@ -34,7 +34,7 @@ const Account = () => {
     case "success":
       return (
         <div className="header__account">
-          <Link to="/">Имя</Link>
+          <Link className="link-reset header__account-link" to="/">Тут должно быть имя пользователя</Link>
         </div>
       );
     case "pending":
