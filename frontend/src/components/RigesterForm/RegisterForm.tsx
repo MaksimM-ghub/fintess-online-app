@@ -3,9 +3,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { api, register as registerUser } from "../../services/api/api";
 import { queryClient } from "../../services/api/queryClient";
-import FormField from "../FormField/FormField";
 import { Button } from "../Button/Button";
 import { useCustomMutation } from "../../hooks/useMutation";
+import TextField from "@mui/material/TextField";
 
 type ServerError = {
   message: string;
@@ -39,17 +39,19 @@ const RegisterForm = () => {
     resolver: zodResolver(registerSchema),
   });
 
-const registerMutate = useCustomMutation<void, RegisterUserType, ServerError>({
-  mutationFn: registerUser,
-  options: {
-    onSuccess() {
-      queryClient.invalidateQueries({ queryKey: ["fetchMe"] });
-    },
-    onError(error) {
-      console.error("Ошибка регистрации:", error.message);
+  const registerMutate = useCustomMutation<void, RegisterUserType, ServerError>(
+    {
+      mutationFn: registerUser,
+      options: {
+        onSuccess() {
+          queryClient.invalidateQueries({ queryKey: ["fetchMe"] });
+        },
+        onError(error) {
+          console.error("Ошибка регистрации:", error.message);
+        },
+      },
     }
-  }
-});
+  );
 
   const onSubmit = (data: RegisterFormType) => {
     const { confirmPassword, ...registerData } = data;
@@ -59,69 +61,63 @@ const registerMutate = useCustomMutation<void, RegisterUserType, ServerError>({
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="auth-form__form">
       <div className="auth-form__inner">
-        <FormField
-          htmlFor="name"
-          title="Имя"
-          className="label-primary"
-          errorMessage={errors.name?.message}
-        >
-          <input
-            id="name"
-            {...register("name")}
-            type="text"
-            className="input-reset input-primary auth-form__input"
-          />
-        </FormField>
-        <FormField
-          htmlFor="surname"
-          title="Фамилия"
-          className="label-primary"
-          errorMessage={errors.surname?.message}
-        >
-          <input
-            id="surname"
-            {...register("surname")}
-            type="text"
-            className="input-reset input-primary auth-form__input"
-          />
-        </FormField>
-        <FormField
-          title="Email"
-          className="label-primary"
-          errorMessage={errors.email?.message}
-        >
-          <input
-            {...register("email")}
-            type="email"
-            className="input-reset input-primary auth-form__input"
-          />
-        </FormField>
-        <FormField
-          title="Пароль"
-          className="label-primary"
-          errorMessage={errors.password?.message}
-        >
-          <input
-            {...register("password")}
-            type="password"
-            className="input-reset input-primary auth-form__input"
-          />
-        </FormField>
-        <FormField
-          title="Подтвердите пароль"
-          className="label-primary"
-          errorMessage={errors.confirmPassword?.message}
-        >
-          <input
-            {...register("confirmPassword")}
-            type="password"
-            className="input-reset input-primary auth-form__input"
-          />
-        </FormField>
+        <TextField
+          {...register("name")}
+          id="standard-search"
+          label="Имя"
+          type="search"
+          variant="standard"
+          className="auth-form__input"
+          error={!!errors.name}
+          helperText={errors.name?.message}
+          fullWidth
+        />
+        <TextField
+          {...register("surname")}
+          id="standard-search"
+          label="Фамилия"
+          type="search"
+          variant="standard"
+          className="input-reset auth-form__input"
+          error={!!errors.name}
+          helperText={errors.name?.message}
+          fullWidth
+        />
+        <TextField
+          {...register("email")}
+          id="standard-search"
+          label="Почта"
+          type="search"
+          variant="standard"
+          className="input-reset auth-form__input"
+          error={!!errors.name}
+          helperText={errors.name?.message}
+          fullWidth
+        />
+        <TextField
+          {...register("password")}
+          id="standard-search"
+          label="Пароль"
+          type="search"
+          variant="standard"
+          className="input-reset auth-form__input"
+          error={!!errors.name}
+          helperText={errors.name?.message}
+          fullWidth
+        />
+        <TextField
+          {...register("confirmPassword")}
+          id="standard-search"
+          label="Подтвердите пароль"
+          type="search"
+          variant="standard"
+          className="input-reset auth-form__input"
+          error={!!errors.name}
+          helperText={errors.name?.message}
+          fullWidth
+        />
         {registerMutate.isError && (
-          <p className="auth-form__error">
-            {registerMutate.error.message}
-          </p>
+          <p className="auth-form__error">{registerMutate.error.message}</p>
         )}
         <Button
           isLoading={registerMutate.isPending}
