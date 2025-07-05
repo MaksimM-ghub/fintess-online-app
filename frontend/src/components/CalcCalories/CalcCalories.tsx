@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, useEffect } from "react";
 import RadioGender from "../RadioGender/RadioGender";
 import UserParamsForm from "../UserParamsForm/UserParamsForm";
 import RengePal from "../RangePAL/RangePAL";
@@ -26,12 +26,21 @@ const CalcCalorie = () => {
     age: null as number | null,
     height: null as number | null,
     weight: null as number | null,
-    palIdx: 0,
+    palIdx: 1.2,
     purpose: "deficit" as Purpose | string,
   });
 
   const [showResult, setShowResult] = useState<boolean>(false);
   const [imt, setImt] = useState<number>(0);
+  const [isDisable, setIsDisable] = useState<boolean>(true);
+
+  useEffect(() => {
+    if (formData.age && formData.height && formData.weight) {
+      setIsDisable(false)
+    } else {
+      setIsDisable(true)
+    }
+  }, [formData.age, formData.height, formData.weight])
 
   const dispatch = useDispatch();
 
@@ -91,7 +100,7 @@ const CalcCalorie = () => {
               purpose={formData.purpose}
               onPurposeChange={handleInputChange("purpose")}
             />
-            <Button className="btn-reset calorie__btn-calc btn-primary" onClick={handleCalc}>
+            <Button isDisabled={isDisable} className="btn-reset calorie__btn-calc btn-primary" onClick={handleCalc}>
               Рассчитать
             </Button>
           </div>

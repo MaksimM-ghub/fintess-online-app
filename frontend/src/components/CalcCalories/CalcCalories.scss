@@ -157,6 +157,10 @@
 
   &__btn-calc {
     align-self: center;
+
+    &:disabled {
+      cursor: not-allowed;
+    }
   }
 
   &__imt-wrapper {

@@ -26,21 +26,26 @@ const palLevels = [
   },
 ];
 
-const RengePal: FC<Props> = ({ palIdx, onPalChange }) => (
-  <div className="calorie__active-wrapper">
-    <FormField title="Дневная активность" classWrapper="calorie__input-range-wrapper">
-      <input
-        className="input-reset calorie__input-range"
-        type="range"
-        min="0"
-        max="4"
-        step="1"
-        value={palIdx}
-        onChange={onPalChange}
-      />
-    </FormField>
-    <p className="calorie__active-text">{palLevels[palIdx]?.label}</p>
-  </div>
-);
+const RangePal: FC<Props> = ({ palIdx, onPalChange }) => {
+  return (
+    <div className="calorie__active-wrapper">
+      <FormField
+        title="Дневная активность"
+        classWrapper="calorie__input-range-wrapper"
+      >
+        <input
+          className="input-reset calorie__input-range"
+          type="range"
+          min="1"
+          max="5"
+          step="1"
+          value={palIdx}
+          onChange={onPalChange}
+        />
+      </FormField>
+      <p className="calorie__active-text">{palLevels[palIdx]?.label}</p>
+    </div>
+  );
+};
 
-export default RengePal;
+export default RangePal;
