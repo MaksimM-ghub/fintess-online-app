@@ -1,4 +1,5 @@
 import { useQuery, UseQueryOptions, QueryKey } from '@tanstack/react-query';
+import { queryClient } from '../services/api/queryClient';
 
 type UseCustomQueryProps<TData, TError> = {
   queryKey: QueryKey;
@@ -15,5 +16,5 @@ export function useCustomQuery<TData = unknown, TError = unknown>({
     queryKey, 
     queryFn, 
     ...options 
-  });
+  }, queryClient);
 }

@@ -1,4 +1,5 @@
 import { UserMeResponse, RegisterType, LoginType } from "../../types/apiType/apiType";
+import { RegisterUserType } from "../../components/RigesterForm/RegisterForm";
 import axios, { AxiosError } from "axios";
 import { validationResponse } from "./validateResponse";
 
@@ -49,30 +50,26 @@ export async function login({ email, password }: LoginType): Promise<void> {
   }
 }
 
-export async function register({ name, surname, email, password }: RegisterType): Promise<void> {
+export async function register(data: RegisterUserType): Promise<void> {
   try {
     await axios.post(
       `${API_URL}/register`,
-      {
-        name,
-        surname,
-        email,
-        password,
-      },
+      data,
       {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
-        }
+        },
       }
     );
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      const serverError = error as AxiosError<ServerError>;
-      throw serverError.response?.data;
+      const serverError = error.response?.data as ServerError;
+      throw serverError;
     }
   }
 }
+
 
 interface ApiType {
   url: string;

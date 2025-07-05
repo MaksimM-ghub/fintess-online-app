@@ -1,11 +1,15 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useMutation } from "@tanstack/react-query";
-import { api, register } from "../../services/api/api";
+import { api, register as registerUser } from "../../services/api/api";
 import { queryClient } from "../../services/api/queryClient";
 import FormField from "../FormField/FormField";
 import { Button } from "../Button/Button";
+import { useCustomMutation } from "../../hooks/useMutation";
+
+type ServerError = {
+  message: string;
+};
 
 const registerSchema = z
   .object({
@@ -24,7 +28,7 @@ const registerSchema = z
   });
 
 type RegisterFormType = z.infer<typeof registerSchema>;
-type RegisterUserType = Omit<RegisterFormType, "confirmPassword">;
+export type RegisterUserType = Omit<RegisterFormType, "confirmPassword">;
 
 const RegisterForm = () => {
   const {
@@ -35,12 +39,17 @@ const RegisterForm = () => {
     resolver: zodResolver(registerSchema),
   });
 
-  const registerMutate = useMutation({
-    mutationFn: (registerData: RegisterUserType) => api.register(registerData),
+const registerMutate = useCustomMutation<void, RegisterUserType, ServerError>({
+  mutationFn: registerUser,
+  options: {
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: ["fetchMe"] });
     },
-  });
+    onError(error) {
+      console.error("Ошибка регистрации:", error.message);
+    }
+  }
+});
 
   const onSubmit = (data: RegisterFormType) => {
     const { confirmPassword, ...registerData } = data;

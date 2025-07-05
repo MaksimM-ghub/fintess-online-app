@@ -1,4 +1,5 @@
 import { useMutation, UseMutationOptions } from '@tanstack/react-query';
+import { queryClient } from '../services/api/queryClient';
 
 type UseCustomMutationProps<TData, TVariables, TError> = {
   mutationFn: (variables: TVariables) => Promise<TData>;
@@ -12,5 +13,5 @@ export function useCustomMutation<TData = unknown, TVariables = void, TError = u
   return useMutation({
     mutationFn,
     ...options,
-  });
+  }, queryClient);
 }
