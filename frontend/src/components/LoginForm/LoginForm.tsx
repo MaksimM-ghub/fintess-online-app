@@ -1,13 +1,13 @@
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
 import { Button } from "../Button/Button";
 import FormField from "../FormField/FormField";
 import { login } from "../../services/api/api";
 import { queryClient } from "../../services/api/queryClient";
 import { setIsAuthOpen } from "../../store/isVisibleSlice/isVisibleSlice";
 import { useDispatch } from "react-redux";
+import { useCustomMutation } from "../../hooks/useMutation";
 
 const loginSchema = z.object({
   email: z
@@ -30,19 +30,18 @@ const LoginForm = () => {
 
   const dispatch = useDispatch();
 
-  const loginMutate = useMutation(
-    {
-      mutationFn: (data: loginType) => login(data),
-      onSuccess() {
+  const loginMutation = useCustomMutation({
+    mutationFn: login,
+    options: {
+      onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["fetchMe"] });
         dispatch(setIsAuthOpen(false));
       },
     },
-    queryClient
-  );
+  });
 
   const onSubmit = (data: loginType) => {
-    loginMutate.mutate(data);
+    loginMutation.mutate(data);
   };
 
   return (
@@ -74,13 +73,13 @@ const LoginForm = () => {
             className="input-reset input-primary auth-form__input"
           />
         </FormField>
-        {loginMutate.isError && (
+        {loginMutation.isError && (
           <p className="auth-form__error">
-            {loginMutate.error.message}
+            {(loginMutation.error as Error).message}
           </p>
         )}
         <Button
-          isLoading={loginMutate.isPending}
+          isLoading={loginMutation.isPending}
           className="btn-reset btn-primary auth-form__btn"
         >
           Войти

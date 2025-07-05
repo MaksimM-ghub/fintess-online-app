@@ -1,0 +1,16 @@
+import { useMutation, UseMutationOptions } from '@tanstack/react-query';
+
+type UseCustomMutationProps<TData, TVariables, TError> = {
+  mutationFn: (variables: TVariables) => Promise<TData>;
+  options?: Omit<UseMutationOptions<TData, TError, TVariables>, 'mutationFn'>;
+};
+
+export function useCustomMutation<TData = unknown, TVariables = void, TError = unknown>({
+  mutationFn,
+  options,
+}: UseCustomMutationProps<TData, TVariables, TError>) {
+  return useMutation({
+    mutationFn,
+    ...options,
+  });
+}
