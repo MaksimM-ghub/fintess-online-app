@@ -43,15 +43,15 @@ export function calcPFC(totalCalories: number, purpose: Purpose | string) {
 
     switch (purpose) {
         case "deficit":
-            protein = Math.round((totalCalories * 0.2) / 4);                // Используем Math.round для округления до целого
-            fats = Math.round((totalCalories * 0.2) / 9);                   // Используем Math.round для округления до целого
-            carbohydrates = Math.round((totalCalories * 0.6) / 4);          // Используем Math.round для округления до целого
+            protein = Math.round((totalCalories * 0.2) / 4);             
+            fats = Math.round((totalCalories * 0.2) / 9);               
+            carbohydrates = Math.round((totalCalories * 0.6) / 4);    
             break;
         case "surplus":
         case "weightMaintenance":
-            protein = Math.round((totalCalories * 0.22) / 4);               // Используем Math.round для округления до целого
-            fats = Math.round((totalCalories * 0.22) / 9);                  // Используем Math.round для округления до целого
-            carbohydrates = Math.round((totalCalories * 0.56) / 4);         // Используем Math.round для округления до целого
+            protein = Math.round((totalCalories * 0.22) / 4);             
+            fats = Math.round((totalCalories * 0.22) / 9);                 
+            carbohydrates = Math.round((totalCalories * 0.56) / 4);         
             break;
         default:
             protein = 0;
